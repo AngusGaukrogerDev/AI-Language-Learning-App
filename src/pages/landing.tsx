@@ -16,25 +16,25 @@ const Landing = () => {
       ]);
 
     return(
-        <>
+        <div className="bg-background ">
             <ClerkUserHeader />
-            <div className="w-full h-screen flex flex-col justify-center items-center gap-4">
-                <div className="flex flex-row justify-center items-center w-3/4 gap-2">
-                    <h2>Hi I'm Angus and I'd like to learn</h2>
+            <div className="w-full h-screen flex flex-col justify-center items-center gap-4 bg-background">
+                <div className="grid grid-cols-2 grid-rows-1 place-items-center items-center gap-3">
+                    <h4 className="h-full w-full justify-self-center"> I'd like to learn</h4>
                     <Autocomplete
                         defaultItems={languages}
                         placeholder="Search a language"
-                        className="max-w-xs"
+                        className="w-64 h-full"
                         >
                         {(language) => <AutocompleteItem key={language.value}>{language.label}</AutocompleteItem>}
                     </Autocomplete>
                 </div>
                 <div>
-                    <Button className="blue">Submit</Button>
+                    <Button className="bg-primary">Submit</Button>
                 </div>
                 
             </div>
-        </>
+        </div>
     )
 }
 export default Landing;
