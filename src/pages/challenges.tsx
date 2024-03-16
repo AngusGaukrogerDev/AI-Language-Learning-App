@@ -1,7 +1,12 @@
+import Navbar from "@/components/navbar";
+
 const Challenges: React.FC = () => {
   return (
     <>
-      {/* Your component code goes here */}
+        <Navbar />
+        <div className="w-full h-screen flex flex-col justify-center items-center bg-pitahaya-light-grey">
+            <h2>Challenges</h2>
+        </div>
     </>
   );
 };
