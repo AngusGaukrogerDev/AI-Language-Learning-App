@@ -164,3 +164,23 @@ p {
   line-height: 140%;
   /* margin-bottom: 1em; */
 }
+
+.cl-internal-b3fm6y, .cl-formButtonPrimary{
+  background-color: #ECBA0B;
+}
+
+.cl-formButtonPrimary:hover{
+  background-color: #2C2C2D;
+}
+
+.cl-internal-15amzqo{
+  color: #ECBA0B;
+}
+.cl-headerTitle, .cl-headerSubtitle, .cl-internal-15amzqo:hover{
+  color: #2C2C2D;
+}
+
+.cl-card{
+  background-color: #FFFFFF;
+  color: #2C2C2D;
+}

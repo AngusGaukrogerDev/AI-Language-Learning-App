@@ -1,12 +1,16 @@
 import Navbar from '@/components/navbar';
 import {Button} from '@nextui-org/react'
 import Link from "next/link";
+import { useUser, useSession } from "@clerk/nextjs";
 
 export default function Home() {
-  
-
+  const { user } = useUser();
+  const { isLoaded, session } = useSession();
   return (
     <>
+    {console.log(user)}
+    {console.log(isLoaded)}
+    {console.log(session)}
       <Navbar />
       <main className="w-full h-screen flex flex-col justify-center items-center bg-pitahaya-light-grey z-0">
         <div className='top-0 flex flex-col justify-center items-center gap-3 w-3/4 text-center'>
