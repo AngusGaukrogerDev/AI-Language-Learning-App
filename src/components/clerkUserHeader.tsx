@@ -2,7 +2,7 @@ import { UserButton } from "@clerk/nextjs";
 
 const ClerkUserHeader = () => {
     return(
-        <header className="w-full flex flex-col items-end pt-2 pr-2">
+        <header className="w-full flex flex-col items-center  bg-pitahaya-light-grey">
             <UserButton afterSignOutUrl="/" />
         </header>
     );
