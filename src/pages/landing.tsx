@@ -11,8 +11,8 @@ const Landing = () => {
 
     let [languages, setLanguages] = useState([
         {value: 1, label: 'Spanish'},
-        {value: 2, label: 'Portuguese'},
-        {value: 3, label: 'French'}
+        // {value: 2, label: 'Portuguese'},
+        // {value: 3, label: 'French'}
       ]);
 
     return(
@@ -30,7 +30,7 @@ const Landing = () => {
                     </Autocomplete>
                 </div>
                 <div>
-                    <Button className="bg-primary">Submit</Button>
+                    <Button className="bg-pitahaya-yellow">Submit</Button>
                 </div>
                 
             </div>
