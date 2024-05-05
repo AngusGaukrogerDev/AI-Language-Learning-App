@@ -19,3 +19,26 @@ model User {
   password String
   name String?
 }
+
+model Lesson {
+  id Int @id @default(autoincrement())
+  name String @unique
+}
+
+model Word {
+  id Int @id @default(autoincrement())
+  englishTranslation String
+  spanishTranslation String
+  image String?
+  audioEnglish String?
+  audioSpanish String?
+  contextEnglish String?
+  contextSpanish String?
+  lessonId Int
+}
+model UserWordProgress {
+  id Int @id @default(autoincrement())
+  userId Int
+  wordId Int
+  wordLevel Int
+}
