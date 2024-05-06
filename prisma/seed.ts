@@ -2,22 +2,63 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-async function main() {
-  const user = await prisma.user.upsert({
-    where: { email: 'test@test.com' },
-    update: {},
-    create: {
-      email: 'test@test.com',
-      name: 'Test User',
-      password: `$2y$12$GBfcgD6XwaMferSOdYGiduw3Awuo95QAPhxFE0oNJ.Ds8qj3pzEZy`
-    }
-  })
-  console.log({ user })
-}
-main()
-  .then(() => prisma.$disconnect())
-  .catch(async (e) => {
-    console.error(e)
+async function seedDatabase() {
+  try {
+    // Create or update a user with a specific email
+    const user = await prisma.user.upsert({
+      where: { email: 'new@new.com' },
+      update: {},
+      create: {
+        email: 'new@new.com',
+        name: 'New User',
+      }
+    })
+
+    // Display the created or updated user
+    console.log('User created or updated:', user)
+
+    // Add example lessons and words
+    const lesson1 = await prisma.lesson.upsert({
+      where: { name: 'Lesson 1' },
+      update: {},
+      create: {
+        name: 'Lesson 1',
+      }
+    })
+
+    const lesson2 = await prisma.lesson.upsert({
+      where: { name: 'Lesson 2' },
+      update: {},
+      create: {
+        name: 'Lesson 2',
+      }
+    })
+
+    // Add example words
+    const word1 = await prisma.word.create({
+      data: {
+        englishTranslation: 'hello',
+        spanishTranslation: 'hola',
+        lessonId: lesson1.id,
+      }
+    })
+
+    const word2 = await prisma.word.create({
+      data: {
+        englishTranslation: 'goodbye',
+        spanishTranslation: 'adiós',
+        lessonId: lesson2.id,
+      }
+    })
+
+    console.log('Example lessons and words created.')
+
+  } catch (error) {
+    console.error('Error seeding the database:', error)
+  } finally {
     await prisma.$disconnect()
-    process.exit(1)
-  })
+  }
+}
+
+// Call the seeding function
+seedDatabase()
