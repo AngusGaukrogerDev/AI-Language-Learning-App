@@ -1,13 +1,12 @@
 import Navbar from "@/components/navbar";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { prisma } from "@/lib/prisma";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from 'next/link';
 
 // Define the type for a single lesson
 type Lesson = {
   id: number;
   name: string;
-  // Add more properties if necessary
 };
 
 // Infer the props type for the component
@@ -17,11 +16,11 @@ const Lessons: React.FC<Props> = ({ lessons }: Props) => {
   return (
     <>
       <Navbar />
-      <div className="w-full h-screen flex flex-col justify-center items-center gap-3 bg-pitahaya-light-grey">
+      <div className="top-0 w-full h-screen flex flex-col justify-center items-center gap-3 bg-pitahaya-light-grey">
         <h2>Lessons</h2>
         {lessons && lessons.map((lesson: Lesson) => (
-          <Link legacyBehavior href={"/lessons/" + lesson.id} passHref>
-            <h2 className="py-2 px-4 rounded-md text-white bg-pitahaya-yellow" key={lesson.id}>
+          <Link legacyBehavior href="/lessons/[id]" as={`/lessons/${lesson.id}`} passHref>
+            <h2 className="py-2 px-4 rounded-md text-white bg-pitahaya-yellow cursor-pointer" key={lesson.id}>
               <a>{lesson.name}</a>
             </h2>
           </Link>
