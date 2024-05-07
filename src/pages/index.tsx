@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import Navbar from '@/components/navbar';
-import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { useAuth } from '@clerk/nextjs';
 
