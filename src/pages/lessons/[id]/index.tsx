@@ -45,9 +45,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         lessonId: lessonId
       }
     });
+    const today = new Date();
+    const userWordProgress = await prisma.userWordProgress.findMany({
+      where: {
+        wordId: {
+          in: words.map(word => word.id)
+        },
+        nextReview: {
+          lte: today
+        }
+      }
+    });
+
+    const wordsToReview = words.filter(word => {
+      return userWordProgress.some(progress => progress.wordId === word.id);
+    });
+
     return {
       props: {
-        nextWords: words,
+        nextWords: wordsToReview,
       },
     };
   } catch (error) {
