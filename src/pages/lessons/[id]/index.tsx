@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Navbar from "@/components/navbar";
+import CardDisplay from '@/components/cardDisplay';
 import React from 'react';
 
 const LessonScreen: React.FC = () => {
@@ -11,7 +12,7 @@ const LessonScreen: React.FC = () => {
     <>
       <Navbar />
       <div className="w-full h-screen flex flex-col justify-center items-center gap-3 bg-pitahaya-light-grey">
-        <h2>{lessonId}</h2>
+        <CardDisplay id={lessonId} />
       </div>
     </>
   );
