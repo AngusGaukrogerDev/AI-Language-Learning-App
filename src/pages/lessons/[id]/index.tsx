@@ -11,10 +11,18 @@ type Word = {
   spanishTranslation: string;
 };
 
+type UserWordProgress = {
+  id: number;
+  wordId: number;
+  wordLevel: number;
+  userId: number;
+  nextReview: string; // Convert nextReview to string
+}
+
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 
-const LessonScreen: React.FC<Props> = ({ nextWords }: Props) => {
+const LessonScreen: React.FC<Props> = ({ nextWords, userWordProgress }: Props) => {
   const router = useRouter();
   // Check if router.query.id exists before accessing its value
   const lessonId = router.query.id ? router.query.id.toString() : '';
@@ -23,7 +31,7 @@ const LessonScreen: React.FC<Props> = ({ nextWords }: Props) => {
     <>
       <Navbar />
       <div className="w-full h-screen flex flex-col justify-center items-center gap-3 bg-pitahaya-light-grey">
-        <CardDisplay words={nextWords} />
+        <CardDisplay words={nextWords} userWordsProgress={userWordProgress} />
       </div>
     </>
   );
@@ -46,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     });
     const today = new Date();
-    const userWordProgress = await prisma.userWordProgress.findMany({
+    const userWordProgress: UserWordProgress[] = await prisma.userWordProgress.findMany({
       where: {
         wordId: {
           in: words.map(word => word.id)
@@ -61,9 +69,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return userWordProgress.some(progress => progress.wordId === word.id);
     });
 
+    // Convert nextReview to string
+    const serializedUserWordProgress = userWordProgress.map(progress => ({
+      ...progress,
+      nextReview: progress.nextReview.toISOString() // Convert Date to ISO string
+    }));
+
     return {
       props: {
         nextWords: wordsToReview,
+        userWordProgress: serializedUserWordProgress // pass serialized userWordProgress here
       },
     };
   } catch (error) {
@@ -72,6 +87,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         nextWords: [],
+        userWordProgress: [] // return empty array for userWordProgress
       },
     };
   }
