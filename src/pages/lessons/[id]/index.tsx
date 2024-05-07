@@ -15,8 +15,8 @@ type UserWordProgress = {
   id: number;
   wordId: number;
   wordLevel: number;
-  userId: number;
-  nextReview: string; // Convert nextReview to string
+  userId: number | null;
+  nextReview: Date;
 }
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // Convert nextReview to string
     const serializedUserWordProgress = userWordProgress.map(progress => ({
       ...progress,
-      nextReview: progress.nextReview.toISOString() // Convert Date to ISO string
+      nextReview: progress.nextReview.toString() // Convert Date to ISO string
     }));
 
     return {
