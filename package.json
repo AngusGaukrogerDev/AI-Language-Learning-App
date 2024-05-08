@@ -17,6 +17,7 @@
     "@langchain/openai": "^0.0.21",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.13.0",
+    "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.0.5",
     "next": "14.1.0",

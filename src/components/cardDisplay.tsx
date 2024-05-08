@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import CardLevel0 from './cardLevels/cardLevel0';
 import CardLevel1 from './cardLevels/cardLevel1';
 import CardLevel2 from './cardLevels/cardLevel2';
@@ -25,7 +26,7 @@ interface CardDisplayProps {
 }
 
 const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) => {
-  const [index, setIndex] = useState<number>(0); // State to keep track of the index
+  const [index, setIndex] = useState<number>(0);
 
   const mergeObjects = (words: Word[], userWordsProgress: UserWordsProgress[]): any[] => {
     const mergedObjects: any[] = [];
@@ -42,11 +43,24 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) =
 
   const mergedData = mergeObjects(words, userWordsProgress);
 
-  const handleIndexChange = (increment: boolean) => {
+  const handleIndexChange = async (increment: boolean) => {
+    const currentIndex = index;
     const updatedData = [...mergedData];
-    updatedData[index].wordLevel = increment ? updatedData[index].wordLevel + 1 : updatedData[index].wordLevel - 1;
-    setIndex(index + 1);
-    console.log(updatedData)
+    const updatedIndex = increment ? currentIndex + 1 : currentIndex - 1;
+    const currentCard = updatedData[currentIndex];
+
+    try {
+      // Call the API route to update the card level
+      await axios.post('/api/updateCardLevel', {
+        id: currentCard.id,
+        wordLevel: currentCard.wordLevel + (increment ? 1 : -1),
+      });
+      
+      // Update local state
+      setIndex(updatedIndex);
+    } catch (error) {
+      console.error('Error updating card level:', error);
+    }
   };
 
   return (
