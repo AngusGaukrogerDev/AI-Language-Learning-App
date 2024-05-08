@@ -43,11 +43,10 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) =
   const mergedData = mergeObjects(words, userWordsProgress);
 
   const handleIndexChange = (increment: boolean) => {
-    const newIndex = increment ? (index + 1) % mergedData.length : (index - 1 + mergedData.length) % mergedData.length;
     const updatedData = [...mergedData];
-    updatedData[index].wordLevel = increment ? Math.min(updatedData[index].wordLevel + 1, 5) : Math.max(updatedData[index].wordLevel - 1, 0);
-    setIndex(newIndex);
-    console.log(updatedData[index].wordLevel)
+    updatedData[index].wordLevel = increment ? updatedData[index].wordLevel + 1 : updatedData[index].wordLevel - 1;
+    setIndex(index + 1);
+    console.log(updatedData)
   };
 
   return (
