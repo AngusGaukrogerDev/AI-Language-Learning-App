@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CardLevel0 from './cardLevels/cardLevel0';
 import CardLevel1 from './cardLevels/cardLevel1';
 import CardLevel2 from './cardLevels/cardLevel2';
@@ -25,6 +25,7 @@ interface CardDisplayProps {
 }
 
 const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) => {
+  const [index, setIndex] = useState<number>(0); // State to keep track of the index
 
   const mergeObjects = (words: Word[], userWordsProgress: UserWordsProgress[]): any[] => {
     const mergedObjects: any[] = [];
@@ -41,37 +42,38 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) =
 
   const mergedData = mergeObjects(words, userWordsProgress);
 
+  const handleIndexChange = (increment: boolean) => {
+    const newIndex = increment ? (index + 1) % mergedData.length : (index - 1 + mergedData.length) % mergedData.length;
+    const updatedData = [...mergedData];
+    updatedData[index].wordLevel = increment ? Math.min(updatedData[index].wordLevel + 1, 5) : Math.max(updatedData[index].wordLevel - 1, 0);
+    setIndex(newIndex);
+    console.log(updatedData[index].wordLevel)
+  };
+
   return (
     <div className="lg:h-auto lg:w-1/4 gap-2 md:gap-5 justify-center items-center bg-pitahaya-white rounded-md">
-      {mergedData.map((item) => (
-        <div className='my-1' key={item.id}>
-          {/* <p>ID: {item.id}</p>
-          <p>English Translation: {item.englishTranslation}</p>
-          <p>Spanish Translation: {item.spanishTranslation}</p>
-          <p>WordID: {item.wordId}</p>
-          <p>UserID: {item.userId}</p>
-          <p>Word Level: {item.wordLevel}</p> */}
-          {item.wordLevel == 0 && 
-            <CardLevel0 cardData={item}/>
+      {mergedData.map((item, i) => (
+        <div className='my-1' key={item.id} style={{ display: i === index ? 'block' : 'none' }}>
+          {item.wordLevel === 0 && 
+            <CardLevel0 cardData={item} onIndexChange={handleIndexChange} />
           }
-          {item.wordLevel == 1 && 
-            <CardLevel1 cardData={item}/>
+          {item.wordLevel === 1 && 
+            <CardLevel1 cardData={item} onIndexChange={handleIndexChange} />
           }
-          {item.wordLevel == 2 && 
-            <CardLevel2 cardData={item}/>
+          {item.wordLevel === 2 && 
+            <CardLevel2 cardData={item} onIndexChange={handleIndexChange} />
           }
-          {item.wordLevel == 3 && 
-            <CardLevel3 cardData={item}/>
+          {item.wordLevel === 3 && 
+            <CardLevel3 cardData={item} onIndexChange={handleIndexChange} />
           }
-          {item.wordLevel == 4 && 
-            <CardLevel4 cardData={item}/>
+          {item.wordLevel === 4 && 
+            <CardLevel4 cardData={item} onIndexChange={handleIndexChange} />
           }
-          {item.wordLevel == 5 && 
-            <CardLevel5 cardData={item}/>
+          {item.wordLevel === 5 && 
+            <CardLevel5 cardData={item} onIndexChange={handleIndexChange} />
           }
         </div>
       ))}
-      
     </div>
   );
 };
