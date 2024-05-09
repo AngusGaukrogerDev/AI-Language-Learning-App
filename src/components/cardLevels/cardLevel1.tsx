@@ -49,11 +49,11 @@ const CardLevel1: React.FC<CardLevel1Props> = ({ cardData, onIndexChange }) => {
 
   return (
     <>
-      <div className='my-1 max-w-md mx-auto p-4 bg-white rounded-lg shadow-lg'>
+      <div className='my-1 mx-auto p-16 bg-white rounded-lg shadow-lg'>
         <p className='text-lg font-semibold'>LEVEL 1</p>
-        <p className='mt-2 text-pitahaya-black'>Translate "{cardData.englishTranslation}" to Spanish:</p>
+        <p className='mt-2 text-pitahaya-black'>How would you write "{cardData.englishTranslation}" in Spanish?</p>
         <form onSubmit={handleSubmit(onSubmitFirstForm)} className='mt-4'>
-          <input type="text" {...register("translation", { required: true })} disabled={firstFormSubmitted} className='border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:border-pitahaya-yellow' />
+          <input type="text" {...register("translation", { required: true })} disabled={firstFormSubmitted} className='border border-pitahaya-light-grey rounded-md px-4 py-2 w-full focus:outline-none focus:border-pitahaya-yellow' />
           <button type="submit" disabled={firstFormSubmitted} className='mt-2 bg-pitahaya-yellow text-white rounded-md px-4 py-2 w-full hover:bg-pitahaya-black transition duration-200 focus:outline-none'>Submit</button>
           {firstFormErrors.translation && <p className='mt-2 text-red-500'>Please enter a translation</p>}
         </form>
@@ -65,7 +65,7 @@ const CardLevel1: React.FC<CardLevel1Props> = ({ cardData, onIndexChange }) => {
             ) : (
               <form onSubmit={handleSubmitSecondForm(onSubmitSecondForm)} className='mt-2'>
                 <p className='text-pitahaya-black'>Type the correct answer to proceed:</p>
-                <input type="text" {...registerSecondForm("translation", { required: true })} className='border border-gray-300 rounded-md px-4 py-2 w-full mt-1 focus:outline-none focus:border-pitahaya-yellow' />
+                <input type="text" {...registerSecondForm("translation", { required: true })} className='border border-pitahaya-light-grey rounded-md px-4 py-2 w-full mt-1 focus:outline-none focus:border-pitahaya-yellow' />
                 <button type="submit" className='mt-2 bg-pitahaya-yellow text-white rounded-md px-4 py-2 w-full hover:bg-pitahaya-black transition duration-200 focus:outline-none'>Submit</button>
                 {secondFormErrors.translation && <p className='mt-2 text-red-500'>Please enter the correct translation</p>}
               </form>

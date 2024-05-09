@@ -21,7 +21,7 @@ const CardLevel0: React.FC<CardLevel0Props> = ({ cardData, onIndexChange }) => {
 
   return (
     <>
-      <div className="bg-gray-100 border border-gray-200 rounded-lg p-4 mb-4">
+      <div className="bg-gray-100 border border-gray-200 rounded-lg p-16 mb-4">
         <img src="" alt="" className="mb-2" />
         <h3 className="text-xl font-semibold mb-2">{cardData.englishTranslation}</h3>
         <h3 className="text-xl mb-2">{cardData.spanishTranslation}</h3>

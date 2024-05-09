@@ -3,13 +3,11 @@ import { prisma } from "@/lib/prisma";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from 'next/link';
 
-// Define the type for a single lesson
 type Lesson = {
   id: number;
   name: string;
 };
 
-// Infer the props type for the component
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Lessons: React.FC<Props> = ({ lessons }: Props) => {
@@ -34,7 +32,6 @@ export default Lessons;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    // Fetch lessons from the database
     const lessons: Lesson[] = await prisma.lesson.findMany();
     return {
       props: {
