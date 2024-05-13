@@ -25,8 +25,13 @@ interface CardDisplayProps {
   userWordsProgress: UserWordsProgress[];
 }
 
+interface HalfLifeState {
+  halfLives: number[];
+}
+
 const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) => {
   const [index, setIndex] = useState<number>(0);
+  const [halfLife, setHalfLife] = useState<HalfLifeState>({ halfLives: [1, 1, 2, 3, 5, 8, 13, 21] });
 
   const mergeObjects = (words: Word[], userWordsProgress: UserWordsProgress[]): any[] => {
     const mergedObjects: any[] = [];
@@ -48,12 +53,15 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) =
     const updatedData = [...mergedData];
     const updatedIndex = increment ? currentIndex + 1 : currentIndex - 1;
     const currentCard = updatedData[currentIndex];
+    const updatedWordLevel = currentCard.wordLevel + (increment ? 1 : -1)
+    const updatedNextReviewDate = calculateNextReviewDate(updatedWordLevel);
 
     try {
       // Call the API route to update the card level
       await axios.post('/api/updateCardLevel', {
         id: currentCard.id,
-        wordLevel: currentCard.wordLevel + (increment ? 1 : -1),
+        wordLevel: updatedWordLevel,
+        nextReview: updatedNextReviewDate,
       });
       
       // Update local state
@@ -62,6 +70,25 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) =
       console.error('Error updating card level:', error);
     }
   };
+
+  const calculateNextReviewDate = (halfLifeIndex: number): Date => {
+    const P = 0.49; // Given value of P
+    const halfLifeValue = halfLife.halfLives[halfLifeIndex]; // Get the half-life value for the current card
+
+    // Calculate next review date using the formula: P = 2^-(nextReview/halfLifeValue)
+    // Rearranging the formula, nextReview = -halfLifeValue/ln(2) * ln(P)
+    const nextReview = -halfLifeValue / Math.log(2) * Math.log(P);
+
+    // Get today's date
+    const today = new Date();
+
+    // Add nextReview days to today's date
+    const nextReviewDate = new Date(today);
+    nextReviewDate.setDate(nextReviewDate.getDate() + nextReview);
+
+    return nextReviewDate;
+  }
+
 
   return (
     <div className="lg:h-auto lg:w-1/4 gap-2 md:gap-5 justify-center items-center bg-pitahaya-white rounded-md">

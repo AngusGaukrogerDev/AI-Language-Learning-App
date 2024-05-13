@@ -5,13 +5,16 @@ const prisma = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { id, wordLevel } = req.body;
+    const { id, wordLevel, nextReview } = req.body;
 
     try {
       // Update the card level in the database
       const updatedCard = await prisma.userWordProgress.update({
         where: { id: id },
-        data: { wordLevel: wordLevel },
+        data: { 
+          wordLevel: wordLevel,
+          nextReview: nextReview,
+         },
       });
 
       res.status(200).json(updatedCard);
