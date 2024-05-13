@@ -11,6 +11,7 @@ async function seedDatabase() {
       create: {
         email: 'new@new.com',
         name: 'New User',
+        clerkId: 'user_2dmaHlfVa1HcXuHfDBNChIExhsz'
       }
     })
 

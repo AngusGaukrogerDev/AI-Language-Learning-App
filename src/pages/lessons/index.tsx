@@ -17,7 +17,7 @@ const Lessons: React.FC<Props> = ({ lessons }: Props) => {
       <div className="top-0 w-full h-screen flex flex-col justify-center items-center gap-3 bg-pitahaya-light-grey">
         <h2>Lessons</h2>
         {lessons && lessons.map((lesson: Lesson) => (
-          <Link legacyBehavior href="/lessons/[id]" as={`/lessons/${lesson.id}`} passHref>
+          <Link key={lesson.id} legacyBehavior href="/lessons/[id]" as={`/lessons/${lesson.id}`} passHref>
             <h2 className="py-2 px-4 rounded-md text-white bg-pitahaya-yellow cursor-pointer" key={lesson.id}>
               <a>{lesson.name}</a>
             </h2>

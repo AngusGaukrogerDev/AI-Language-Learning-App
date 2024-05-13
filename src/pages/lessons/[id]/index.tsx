@@ -2,8 +2,16 @@
   import Navbar from "@/components/navbar";
   import CardDisplay from '@/components/cardDisplay';
   import { GetServerSideProps, InferGetServerSidePropsType} from "next";
+  import { useAuth } from '@clerk/nextjs';
   import { prisma } from "@/lib/prisma";
   import React from 'react';
+  import { withServerSideAuth } from '@clerk/nextjs/ssr'
+
+  type User = {
+    id: number;
+    email: string;
+    clerkId: string;
+  } | null;
 
   type Word = {
     id: number;
@@ -15,7 +23,7 @@
     id: number;
     wordId: number;
     wordLevel: number;
-    userId: number | null;
+    userId: number;
     nextReview: Date;
   }
 
@@ -39,15 +47,29 @@
 
   export default LessonScreen;
 
-  export const getServerSideProps: GetServerSideProps = async (context) => {
+  export const getServerSideProps: GetServerSideProps = withServerSideAuth(async (context) => {
     try {
+      const { userId } = context.req.auth
+      
       const { id } = context.query;
+      if (!userId) {
+        throw new Error("User ID not found");
+      }
+      console.log(userId);
       if (!id || typeof id !== "string") {
         throw new Error("Invalid lesson ID");
       }
       
       const lessonId = parseInt(id);
 
+      const user: User = await prisma.user.findFirst({
+        where:{
+          clerkId: userId
+        }
+      })
+      if (!user) {
+        throw new Error("User not found");
+      }
       const words: Word[] = await prisma.word.findMany({
         where: {
           lessonId: lessonId
@@ -61,6 +83,9 @@
           },
           nextReview: {
             lte: today
+          },
+          userId:{
+            equals: user.id
           }
         }
       });
@@ -91,4 +116,4 @@
         },
       };
     }
-  }
+  })

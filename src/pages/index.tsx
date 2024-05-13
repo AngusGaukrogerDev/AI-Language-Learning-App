@@ -6,7 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 export default function Home() {
   const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-
+  console.log(userId)
   if (isLoaded) {
     router.push('/dashboard'); // Redirect to dashboard if user is authenticated
     return null; // Render nothing while redirecting
