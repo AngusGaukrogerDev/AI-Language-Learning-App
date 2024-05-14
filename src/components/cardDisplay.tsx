@@ -79,7 +79,6 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ words, userWordsProgress }) =
     // Rearranging the formula, nextReview = -halfLifeValue/ln(2) * ln(P)
     const nextReview = -halfLifeValue / Math.log(2) * Math.log(P);
 
-    // Get today's date
     const today = new Date();
 
     // Add nextReview days to today's date

@@ -55,7 +55,6 @@
       if (!userId) {
         throw new Error("User ID not found");
       }
-      console.log(userId);
       if (!id || typeof id !== "string") {
         throw new Error("Invalid lesson ID");
       }
