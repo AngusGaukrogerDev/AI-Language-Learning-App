@@ -36,7 +36,7 @@ const Review: React.FC<Props> = ({ cardsInReview }) => {
         const currentIndex = index;
         const updatedIndex = increment ? currentIndex + 1 : currentIndex - 1;
         const currentCard = cardsInReview[currentIndex];
-        const updatedWordLevel = currentCard.wordLevel + (increment ? 1 : -1)
+        const updatedWordLevel = currentCard.wordLevel + (increment ? 0 : -1)
         const updatedNextReviewDate = calculateNextReviewDate(updatedWordLevel);
     
         try {

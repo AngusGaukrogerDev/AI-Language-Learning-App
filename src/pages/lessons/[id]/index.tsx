@@ -1,11 +1,13 @@
-  import { useRouter } from 'next/router';
-  import Navbar from "@/components/navbar";
-  import CardDisplay from '@/components/cardDisplay';
-  import { GetServerSideProps, InferGetServerSidePropsType} from "next";
-  import { useAuth } from '@clerk/nextjs';
-  import { prisma } from "@/lib/prisma";
-  import React from 'react';
-  import { withServerSideAuth } from '@clerk/nextjs/ssr'
+import { useRouter } from 'next/router';
+import Navbar from "@/components/navbar";
+import CardDisplay from '@/components/cardDisplay';
+import { GetServerSideProps, InferGetServerSidePropsType} from "next";
+import { useAuth } from '@clerk/nextjs';
+import { prisma } from "@/lib/prisma";
+import React from 'react';
+import { withServerSideAuth } from '@clerk/nextjs/ssr'
+import Link from 'next/link';
+
 
   type User = {
     id: number;
@@ -39,7 +41,16 @@
       <>
         <Navbar />
         <div className="w-full h-screen flex flex-col justify-center items-center gap-3 bg-pitahaya-light-grey">
-          <CardDisplay words={nextWords} userWordsProgress={userWordProgress} />
+          {nextWords.length === 0 ? 
+            <div className='flex flex-col justify-center items-center'>
+              <p>No cards due to review in this lesson</p>
+              <Link href="/lessons">
+                <button className='mt-2 bg-pitahaya-yellow text-white rounded-md px-4 py-2 w-full hover:bg-pitahaya-black transition duration-200 focus:outline-none'>Go Back</button>
+              </Link>
+            </div>
+            : 
+            <CardDisplay words={nextWords} userWordsProgress={userWordProgress} />
+          }       
         </div>
       </>
     );

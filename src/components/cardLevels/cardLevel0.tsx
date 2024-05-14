@@ -6,6 +6,8 @@ interface CardData {
   spanishTranslation: string;
   wordId: number;
   userId: number;
+  contextEnglish?: string;
+  contextSpanish?: string;
   wordLevel: number;
 }
 
@@ -21,10 +23,13 @@ const CardLevel0: React.FC<CardLevel0Props> = ({ cardData, onIndexChange }) => {
 
   return (
     <>
-      <div className="bg-gray-100 border border-gray-200 rounded-lg p-16 mb-4">
+      <div className="bg-white border rounded-lg p-16">
         <img src="" alt="" className="mb-2" />
-        <h3 className="text-xl font-semibold mb-2">{cardData.englishTranslation}</h3>
-        <h3 className="text-xl mb-2">{cardData.spanishTranslation}</h3>
+        <h2 className='mb-2'>New word!</h2>
+        <h3 className="text-xl font-semibold ">{cardData.englishTranslation}</h3>
+        {cardData.contextEnglish != null ? <p className='text-sm italic mb-2'>{cardData.contextEnglish}</p> : <></>}
+        <h3 className="text-xl font-semibold">{cardData.spanishTranslation}</h3>
+        {cardData.contextSpanish != null ? <p className='text-sm italic mb-2'>{cardData.contextSpanish}</p> : <></>}
         <button onClick={handleIncrement} className="bg-pitahaya-yellow hover:bg-pitahaya-black text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Next</button> {/* Button triggers increment */}
       </div>
     </>
