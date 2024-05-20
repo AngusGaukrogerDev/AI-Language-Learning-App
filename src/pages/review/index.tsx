@@ -5,6 +5,7 @@ import { withServerSideAuth } from '@clerk/nextjs/ssr'
 import CardLevel3 from "@/components/cardLevels/cardLevel3";
 import axios from 'axios';
 import { useState } from "react";
+import Link from 'next/link';
 
 type Review = {
     id: number;
@@ -76,8 +77,20 @@ const Review: React.FC<Props> = ({ cardsInReview }) => {
     return (
         <>
             <Navbar />
+            {console.log(cardsInReview)}
             <div className="w-full h-screen flex flex-col justify-center items-center bg-pitahaya-light-grey">
+            {cardsInReview != 0 ?   
                 <CardLevel3  cardData={cardsInReview[index]} onIndexChange={handleIndexChange} />
+                :
+                <div className='flex flex-col justify-center items-center gap-3'>                
+                    <p>No cards due for review right now! Check back in the next few days.</p>
+                    <Link legacyBehavior href="/dashboard" as="/dashboard" passHref>
+                        <button className="py-2 px-4 rounded-md text-white bg-pitahaya-yellow cursor-pointer">
+                            <a>Home</a>
+                        </button>
+                    </Link>
+                </div>
+            }
             </div>
         </>
     );
