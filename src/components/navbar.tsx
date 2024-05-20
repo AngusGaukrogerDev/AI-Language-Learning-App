@@ -6,8 +6,6 @@ import { Icon } from '@iconify/react';
 
 const Navbar: React.FC = () => {
 
-  // console.log("User ID:", userId);
-  // console.log("isLoaded:", isLoaded);
   return (
     <nav className="w-full fixed h-20 bg-pitahaya-light-grey flex flex-row justify-around items-center py-5 z-[98] top-0">
         <HomeIcon />
